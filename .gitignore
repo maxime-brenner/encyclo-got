@@ -1,0 +1,7 @@
+#env
+env/
+
+#react-modules
+got/frontend/node_modules
+got/node_modules
+

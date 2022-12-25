@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import CharField, ManyToManyField, OneToOneField, ForeignKey,BooleanField, CASCADE
+from django.db.models import CharField, ManyToManyField, OneToOneField, ForeignKey,BooleanField, IntegerField, CASCADE
 
 class Perso (models.Model):
 
@@ -12,7 +12,7 @@ class Perso (models.Model):
     geniteur = ForeignKey('self', related_name="Père", verbose_name="Père",on_delete=CASCADE, blank=True, null=True)
     genitrice = ForeignKey('self', related_name="Mère", verbose_name="Mère", on_delete=CASCADE, blank=True, null=True)
     epoux = ManyToManyField('self', blank=True)
-    enfants = ManyToManyField('self', blank=True)
+    generation = IntegerField(("Génération"), null=True)
     isnoble = BooleanField(default=True)
     description = CharField("description", max_length=255, blank=True)
     deces = models.CharField(("Mort"), max_length=255, blank=True)
@@ -35,7 +35,7 @@ class Maison (models.Model):
     suzerain = ManyToManyField("self", blank=True)
     banneret = ManyToManyField("self", blank=True)
     membre = ManyToManyField("api.Perso", related_name="Membres",verbose_name=("Membres"), blank=True)
-    fief = ForeignKey(("api.Lieu"), related_name="Fief", null=True, on_delete=CASCADE)
+    fief = ForeignKey(("api.Lieu"), related_name="Fief", null=True, blank=True, on_delete=CASCADE)
     
     class Meta:
         verbose_name = ("Maison")
@@ -54,6 +54,8 @@ class Lieu (models.Model):
     
     def __str__(self):
         return self.nom
+    
+    
     
 class Continent (models.Model):
     
